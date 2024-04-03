@@ -2,25 +2,27 @@
   <div>
     <NButton type="primary" @click="showModal">Добавить</NButton>
 
-    <NModal v-model:visible="isModalOpen" title="Добавить профиль" :closable="false">
-      <!--NForm ref="formRef" :model="formData" label-placement="top" :rules="rules">
-        <NFormItem label="Имя" prop="firstName">
-          <NInput v-model="formData.firstName" />
-        </NFormItem>
-        <NFormItem label="Фамилия" prop="lastName">
-          <NInput v-model="formData.lastName" />
-        </NFormItem>
-        <NFormItem label="Возраст" prop="age">
-          <NInputNumber v-model="formData.age" />
-        </NFormItem>
-        <template #default="{ errors }">
+    <NModal v-model:show="isModalOpen" title="Добавить профиль" :closable="false">
+      <n-card style="width: 600px" title="Modal" :bordered="false" size="huge" role="dialog" aria-modal="true">
+        <NForm :model="formData" label-placement="top" :rules="rules">
+          <NFormItem label="Имя" prop="firstName">
+            <NInput v-model:value="formData.firstName" />
+          </NFormItem>
+          <NFormItem label="Фамилия" prop="lastName">
+            <NInput v-model:value="formData.lastName" />
+          </NFormItem>
+          <NFormItem label="Возраст" prop="age">
+            <NInputNumber v-model:value="formData.age" />
+          </NFormItem>
+        </NForm>
+        <template #footer>
           <NButton type="primary" @click="submitForm">Добавить</NButton>
           <NButton @click="closeModal">Отмена</NButton>
           <NFormItem :show-message="false">
-            <na-form-item-message v-if="errors.length > 0" :status="'error'">{{ errors[0] }}</na-form-item-message>
+            <!--div v-if="errors.length > 0" :status="'error'">{{ errors[0] }}</div-->
           </NFormItem>
         </template>
-      </NForm-->
+      </n-card>
     </NModal>
 
     <NDataTable v-if="!loading" :columns="columns" :data="profiles" />
@@ -31,7 +33,19 @@
 <script lang="ts">
 import { defineComponent, h, onMounted, ref } from "vue";
 import { loadProfiles } from "@/database";
-import { NDataTable, NSpin, NButton, DataTableColumns, NModal, FormInst } from "naive-ui";
+import {
+  NDataTable,
+  NSpin,
+  NButton,
+  DataTableColumns,
+  NModal,
+  FormInst,
+  NForm,
+  NInput,
+  NFormItem,
+  NInputNumber,
+  NCard,
+} from "naive-ui";
 import { ColumnType, Profile } from "@/types";
 
 export default defineComponent({
@@ -41,10 +55,11 @@ export default defineComponent({
     NSpin,
     NButton,
     NModal,
-    //NForm,
-    //NInput,
-    //NInputNumber,
-    //NFormItem,
+    NCard,
+    NForm,
+    NInput,
+    NInputNumber,
+    NFormItem,
   },
   setup() {
     const profiles = ref<Profile[]>([]);
